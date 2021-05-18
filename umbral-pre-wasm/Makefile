@@ -17,3 +17,9 @@ pkg: src
 	# Add keywords
 	sed -i ".bak" -e 's/"sideEffects": false/"sideEffects": false, "keywords": ["umbral", "nucypher"]/g' pkg/package.json
 	rm pkg/package.json.bak
+
+
+pkg-node: src
+	wasm-pack build --target nodejs -d pkg-node
+pkg-web: src
+	wasm-pack build --target web -d pkg-web
