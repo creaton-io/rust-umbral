@@ -11,6 +11,7 @@ use wasm_bindgen::prelude::{wasm_bindgen, JsValue};
 
 use alloc::boxed::Box;
 use alloc::{vec, vec::Vec};
+use generic_array::GenericArray;
 
 #[wasm_bindgen]
 pub struct SecretKey(umbral_pre::SecretKey);
@@ -22,6 +23,17 @@ impl SecretKey {
         console_error_panic_hook::set_once(); // TODO (#16): find a better place to initialize it
         Self(umbral_pre::SecretKey::random())
     }
+
+    #[wasm_bindgen]
+    pub fn to_array(&self) -> Vec<u8>{
+        <umbral_pre::SecretKey as umbral_pre::SerializableToArray>::to_array(&self.0).to_vec()
+    }
+
+    #[wasm_bindgen]
+    pub fn from_array(arr: &[u8]) -> Self{
+        let x= GenericArray::from_slice(arr);
+        Self(<umbral_pre::SecretKey as umbral_pre::SerializableToArray>::from_array(x).unwrap())
+    }
 }
 
 #[wasm_bindgen]
@@ -32,6 +44,17 @@ impl PublicKey {
     /// Generates a secret key using the default RNG and returns it.
     pub fn from_secret_key(secret_key: &SecretKey) -> Self {
         Self(umbral_pre::PublicKey::from_secret_key(&secret_key.0))
+    }
+
+    #[wasm_bindgen]
+    pub fn to_array(&self) -> Vec<u8>{
+        <umbral_pre::PublicKey as umbral_pre::SerializableToArray>::to_array(&self.0).to_vec()
+    }
+
+    #[wasm_bindgen]
+    pub fn from_array(arr: &[u8]) -> Self{
+        let x= GenericArray::from_slice(arr);
+        Self(<umbral_pre::PublicKey as umbral_pre::SerializableToArray>::from_array(x).unwrap())
     }
 }
 
@@ -68,6 +91,17 @@ impl Capsule {
             cfrags: vec![cfrag.clone()],
         }
     }
+
+    #[wasm_bindgen]
+    pub fn from_array(arr: &[u8]) -> Self{
+        let x= GenericArray::from_slice(arr);
+        Self(<umbral_pre::Capsule as umbral_pre::SerializableToArray>::from_array(x).unwrap())
+    }
+
+    #[wasm_bindgen]
+    pub fn to_array(&self) -> Vec<u8>{
+        <umbral_pre::Capsule as umbral_pre::SerializableToArray>::to_array(&self.0).to_vec()
+    }
 }
 
 #[wasm_bindgen]
@@ -90,6 +124,17 @@ impl CapsuleFrag {
             &delegating_pubkey.0,
             &receiving_pubkey.0,
         )
+    }
+
+    #[wasm_bindgen]
+    pub fn from_array(arr: &[u8]) -> Self{
+        let x= GenericArray::from_slice(arr);
+        Self(<umbral_pre::CapsuleFrag as umbral_pre::SerializableToArray>::from_array(x).unwrap())
+    }
+
+    #[wasm_bindgen]
+    pub fn to_array(&self) -> Vec<u8>{
+        <umbral_pre::CapsuleFrag as umbral_pre::SerializableToArray>::to_array(&self.0).to_vec()
     }
 }
 
@@ -228,6 +273,17 @@ impl KeyFrag {
             Some(&backend_delegating_pubkey),
             Some(&backend_receiving_pubkey),
         )
+    }
+
+    #[wasm_bindgen]
+    pub fn from_array(arr: &[u8]) -> Self{
+        let x= GenericArray::from_slice(arr);
+        Self(<umbral_pre::KeyFrag as umbral_pre::SerializableToArray>::from_array(x).unwrap())
+    }
+
+    #[wasm_bindgen]
+    pub fn to_array(&self) -> Vec<u8>{
+        <umbral_pre::KeyFrag as umbral_pre::SerializableToArray>::to_array(&self.0).to_vec()
     }
 }
 
