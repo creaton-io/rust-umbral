@@ -4,6 +4,11 @@
 
 This repo contains the WASM-based JS bindings for the [main Rust project][umbral-pre].
 
+## Usage in Creaton
+For making the bindings compatible for nodejs run `make pkg-node`.  
+For making the bindings compatible for the react app run `make pkg`.  
+
+
 ## Usage
 
 (This code can be found in the `example` folder)
